@@ -4,24 +4,22 @@ import (
 	"fmt"
 )
 
-func plus(a int, b int) int {
-	return a + b
-}
+func sum(nums ...int) {
+	fmt.Print(nums, " ")
+	total := 0
 
-func plusPlus(a, b, c int) int {
-	return a + b + c
-}
+	for _, num := range nums {
+		total += num
+	}
 
-func vals() (int, int) {
-	return 3, 7
+	fmt.Println(total)
 }
 
 func main() {
 
-	a, b := vals()
-	fmt.Println(a)
-	fmt.Println(b)
+	sum(1, 2)
+	sum(1, 2, 3)
 
-	_, c := vals()
-	fmt.Println(c)
+	nums := []int{1, 2, 3, 4}
+	sum(nums...)
 }
