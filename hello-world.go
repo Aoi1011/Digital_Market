@@ -1,54 +1,54 @@
 package main
 
 import (
+	"errors"
 	"fmt"
 )
 
-func Mapkeys[K comparable, V any](m map[K]V) []K {
-	r := make([]K, 0, len(m))
-	for k := range m {
-		r = append(r, k)
+func f1(arg int) (int, error) {
+	if arg == 42 {
+		return -1, errors.New("can't work with 42")
 	}
-	return r
+
+	return arg + 3, nil
 }
 
-type List[T any] struct {
-	head, tail *element[T]
+type argError struct {
+	arg  int
+	prob string
 }
 
-type element[T any] struct {
-	next *element[T]
-	val  T
+func (e *argError) Error() string {
+	return fmt.Sprintf("%d - %s", e.arg, e.prob)
 }
 
-func (lst *List[T]) Push(v T) {
-	if lst.tail == nil {
-		lst.head = &element[T]{val: v}
-		lst.tail = lst.head
-	} else {
-		lst.tail.next = &element[T]{val: v}
-		lst.tail = lst.tail.next
+func f2(arg int) (int, error) {
+	if arg == 42 {
+		return -1, &argError{arg, "can't work with it"}
 	}
-}
-
-func (lst *List[T]) GetAll() []T {
-	var elems []T
-	for e := lst.head; e != nil; e = e.next {
-		elems = append(elems, e.val)
-	}
-	return elems
+	return arg + 3, nil
 }
 
 func main() {
-	var m = map[int]string{1: "2", 2: "4", 3: "8"}
+	for _, i := range []int{7, 42} {
+		if r, e := f1(i); e != nil {
+			fmt.Println("f1 failed: ", e)
+		} else {
+			fmt.Println("f1 worked: ", r)
+		}
+	}
 
-	fmt.Println("keys:", Mapkeys(m))
+	for _, i := range []int{7, 42} {
+		if r, e := f2(i); e != nil {
+			fmt.Println("f2 failed: ", e)
+		} else {
+			fmt.Println("f2 worked: ", r)
+		}
+	}
 
-	_ = Mapkeys(m)
-
-	lst := List[int]{}
-	lst.Push(10)
-	lst.Push(13)
-	lst.Push(23)
-	fmt.Println("list:", lst.GetAll())
+	_, e := f2(42)
+	if ae, ok := e.(*argError); ok {
+		fmt.Println(ae.arg)
+		fmt.Println(ae.prob)
+	}
 }
