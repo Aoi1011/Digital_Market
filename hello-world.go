@@ -6,46 +6,25 @@ import (
 
 func main() {
 
-	s := make([]string, 3)
-	fmt.Println("emp", s)
+	m := make(map[string]int)
 
-	s[0] = "a"
-	s[1] = "b"
-	s[2] = "c"
-	fmt.Println("set:", s)
-	fmt.Println("get:", s[2])
+	m["k1"] = 7
+	m["k2"] = 13
 
-	fmt.Println("len:", len(s))
+	fmt.Println("map:", m)
 
-	s = append(s, "d")
-	s = append(s, "e", "f")
-	fmt.Println("apd:", s)
+	v1 := m["k1"]
+	fmt.Println("v1: ", v1)
 
-	c := make([]string, len(s))
-	copy(c, s)
-	fmt.Println("cpy:", c)
+	fmt.Println("len:", len(m))
 
-	l := s[2:5]
-	fmt.Println("sl1:", l)
+	delete(m, "k2")
+	fmt.Println("map:", m)
 
-	l = s[:5]
-	fmt.Println("sl2:", l)
+	_, prs := m["k2"]
+	fmt.Println("prs: ", prs)
 
-	l = s[2:]
-	fmt.Println("sl2:", l)
-
-	t := []string{"g", "h", "i"}
-	fmt.Println("dcl:", t)
-
-	twoD := make([][]int, 3)
-	for i := 0; i < 3; i++ {
-		innnerLen := i + 1
-		twoD[i] = make([]int, innnerLen)
-		for j := 0; j < innnerLen; j++ {
-			twoD[i][j] = i + j
-		}
-	}
-
-	fmt.Println("2d: ", twoD)
+	n := map[string]int{"foo": 1, "bar": 2}
+	fmt.Println("map:", n)
 
 }
