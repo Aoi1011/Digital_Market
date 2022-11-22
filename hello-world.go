@@ -2,42 +2,35 @@ package main
 
 import (
 	"fmt"
-	"unicode/utf8"
 )
 
-func zeroval(ival int) {
-	ival = 0
+type person struct {
+	name string
+	age  int
 }
 
-func zeroptr(iptr *int) {
-	*iptr = 0
+func newPerson(name string) *person {
+	p := person{name: name}
+	p.age = 42
+	return &p
 }
 
 func main() {
 
-	const s = "สวัสดี"
+	fmt.Println(person{"Bob", 20})
+	fmt.Println(person{name: "Alice", age: 30})
+	fmt.Println(person{name: "Bob"})
+	fmt.Println(&person{name: "Ann", age: 20})
+	fmt.Println(newPerson("Jon"))
 
-	fmt.Println("Len:", len(s))
+	s := person{name: "Sean", age: 50}
+	fmt.Println(s.name)
 
-	for i := 0; i < len(s); i++ {
-		fmt.Printf("% x", s[i])
-	}
-	fmt.Println()
+	sp := &s
+	fmt.Println(sp.age)
 
-	fmt.Println("Rune count:", utf8.RuneCountInString(s))
-
-	for idx, runeValue := range s {
-		fmt.Printf("%#U starts at %d\n", runeValue, idx)
-	}
-
-	fmt.Println("\nUsing DecodeRuneInString")
-	for i, w := 0, 0; i < len(s); i += w {
-		runeValue, width := utf8.DecodeRuneInString(s[i:])
-		fmt.Printf("%U starts at %d\n", runeValue, i)
-		w = width
-
-		examineRune(runeValue)
-	}
+	sp.age = 51
+	fmt.Println(sp.age)
 }
 
 func examineRune(r rune) {
