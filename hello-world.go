@@ -4,39 +4,25 @@ import (
 	"fmt"
 )
 
-type person struct {
-	name string
-	age  int
+type rect struct {
+	width, height int
 }
 
-func newPerson(name string) *person {
-	p := person{name: name}
-	p.age = 42
-	return &p
+func (r *rect) area() int {
+	return r.width * r.height
+}
+
+func (r rect) perim() int {
+	return 2*r.width + 2*r.height
 }
 
 func main() {
+	r := rect{width: 10, height: 5}
 
-	fmt.Println(person{"Bob", 20})
-	fmt.Println(person{name: "Alice", age: 30})
-	fmt.Println(person{name: "Bob"})
-	fmt.Println(&person{name: "Ann", age: 20})
-	fmt.Println(newPerson("Jon"))
+	fmt.Println("area: ", r.area())
+	fmt.Println("perim: ", r.perim())
 
-	s := person{name: "Sean", age: 50}
-	fmt.Println(s.name)
-
-	sp := &s
-	fmt.Println(sp.age)
-
-	sp.age = 51
-	fmt.Println(sp.age)
-}
-
-func examineRune(r rune) {
-	if r == 't' {
-		fmt.Println("found tee")
-	} else if r == 'ส' {
-		fmt.Println("found so sua")
-	}
+	rp := &r
+	fmt.Println("area: ", rp.area())
+	fmt.Println("perim: ", rp.perim())
 }
