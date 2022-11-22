@@ -3,6 +3,7 @@ package main
 import (
 	"errors"
 	"fmt"
+	"time"
 )
 
 func f1(arg int) (int, error) {
@@ -29,26 +30,21 @@ func f2(arg int) (int, error) {
 	return arg + 3, nil
 }
 
+func f(from string) {
+	for i := 0; i < 3; i++ {
+		fmt.Println(from, ":", i)
+	}
+}
+
 func main() {
-	for _, i := range []int{7, 42} {
-		if r, e := f1(i); e != nil {
-			fmt.Println("f1 failed: ", e)
-		} else {
-			fmt.Println("f1 worked: ", r)
-		}
-	}
+	f("direct")
 
-	for _, i := range []int{7, 42} {
-		if r, e := f2(i); e != nil {
-			fmt.Println("f2 failed: ", e)
-		} else {
-			fmt.Println("f2 worked: ", r)
-		}
-	}
+	go f("goroutine")
 
-	_, e := f2(42)
-	if ae, ok := e.(*argError); ok {
-		fmt.Println(ae.arg)
-		fmt.Println(ae.prob)
-	}
+	go func(msg string) {
+		fmt.Println(msg)
+	}("going")
+
+	time.Sleep(time.Second)
+	fmt.Println("done")
 }
