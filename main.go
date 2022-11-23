@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"html/template"
 	"net/http"
 
 	"github.com/go-chi/chi/v5"
@@ -9,9 +10,15 @@ import (
 )
 
 func homeHandler(w http.ResponseWriter, r *http.Request) {
-	bio := "&lt;script&gt;alert(&quot;Hi!&quot;);&lt;/script&gt;"
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
-	fmt.Fprintf(w, "<h1>Welcome to my awesome site!</h1><p>"+bio+"</p>")
+	tpl, err := template.ParseFiles("templates/home.gohtml")
+	if err != nil {
+		panic(err)
+	}
+	err = tpl.Execute(w, nil)
+	if err != nil {
+		panic(err)
+	}
 }
 
 func contactHandler(w http.ResponseWriter, r *http.Request) {
