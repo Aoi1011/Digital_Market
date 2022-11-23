@@ -22,11 +22,17 @@ func faqHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "<h1>FAQ Page</h1><p>Is there a free version?</p>")
 }
 
+func galleriesHandler(w http.ResponseWriter, r *http.Request) {
+	galleryID := chi.URLParam(r, "galleryID")
+	fmt.Fprintf(w, "<h1>Gallery Page %v</h1><p></p>", galleryID)
+}
+
 func main() {
 	r := chi.NewRouter()
 	r.Get("/", homeHandler)
 	r.Get("/contact", contactHandler)
 	r.Get("/faq", faqHandler)
+	r.Get("/galleries/{galleryID}", galleriesHandler)
 	r.NotFound(func(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Page Not Found", http.StatusNotFound)
 	})
