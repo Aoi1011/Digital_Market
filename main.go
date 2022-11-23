@@ -11,6 +11,8 @@ func pathHandler(w http.ResponseWriter, r *http.Request) {
 		homeHandler(w, r)
 	case "/contact":
 		contactHandler(w, r)
+	case "/fap":
+		faqHandler(w, r)
 	default:
 		http.Error(w, "Page not found", http.StatusNotFound)
 	}
@@ -26,6 +28,11 @@ func contactHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "<h1>Contact Page</h1><p>To get in touch, email me at <a href=\"a@gmail.com\">a@gmail.com</a></p>")
 }
 
+func faqHandler(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "text/html; charset=utf-8")
+	fmt.Fprintf(w, "<h1>FAQ Page</h1><p>Is there a free version?</p>")
+}
+
 type Router struct{}
 
 func (router Router) ServeHTTP(w http.ResponseWriter, r *http.Request) {
@@ -34,6 +41,8 @@ func (router Router) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		homeHandler(w, r)
 	case "/contact":
 		contactHandler(w, r)
+	case "/fap":
+		faqHandler(w, r)
 	default:
 		http.Error(w, "Page not found", http.StatusNotFound)
 	}
