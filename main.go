@@ -30,5 +30,5 @@ func contactHandler(w http.ResponseWriter, r *http.Request) {
 
 func main() {
 	fmt.Printf("Starting the server on :3000...")
-	http.ListenAndServe(":3000", http.HandlerFunc(pathHandler)) // http.HandlerFunc is a type, so when we write the following code we are converting pathHandler to the http.HandlerFunc type
+	http.ListenAndServe(":3000", http.HandlerFunc(pathHandler))
 }
