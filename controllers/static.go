@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"html/template"
 	"net/http"
 
 	"github.com/Aoi1011/lenslocked/views"
@@ -23,7 +24,7 @@ func StaticHandler(tpl views.Template) http.HandlerFunc {
 func FAQ(tpl views.Template) http.HandlerFunc {
 	questions := []struct {
 		Question string
-		Answer   string
+		Answer   template.HTML
 	}{
 		{
 			Question: "Is there a free version?",
@@ -36,6 +37,10 @@ func FAQ(tpl views.Template) http.HandlerFunc {
 		{
 			Question: "How do I contact support?",
 			Answer:   `Email us - <a href="mailto:support@lenslocked.com">support@lenslocked.com</a>`,
+		},
+		{
+			Question: "Where is your office?",
+			Answer:   `Our entire office is remote!`,
 		},
 	}
 	return func(w http.ResponseWriter, r *http.Request) {
