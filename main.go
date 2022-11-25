@@ -45,6 +45,7 @@ func main() {
 	r.Get("/signup", userC.New)
 	r.Post("/signup", userC.Create)
 	r.Get("/signin", userC.SignIn)
+	r.Post("/signin", userC.ProcessSignIn)
 
 	r.NotFound(func(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Page Not Found", http.StatusNotFound)
