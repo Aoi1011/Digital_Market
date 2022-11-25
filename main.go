@@ -10,6 +10,7 @@ import (
 	"github.com/Aoi1011/lenslocked/views"
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
+	"github.com/gorilla/csrf"
 )
 
 func main() {
@@ -46,11 +47,18 @@ func main() {
 	r.Post("/signup", userC.Create)
 	r.Get("/signin", userC.SignIn)
 	r.Post("/signin", userC.ProcessSignIn)
+	r.Get("/users/me", userC.CurrentUser)
 
 	r.NotFound(func(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Page Not Found", http.StatusNotFound)
 	})
 
 	fmt.Println("Starting the server on :3000...")
-	http.ListenAndServe(":3000", r)
+
+	csrfKey := "gFvi45R4fy5xNBlnEeZtQbfAVCYEIAUX"
+	csrfMw := csrf.Protect(
+		[]byte(csrfKey),
+		csrf.Secure(false),
+	)
+	http.ListenAndServe(":3000", csrfMw(r))
 }
