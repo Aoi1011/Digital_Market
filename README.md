@@ -10,6 +10,7 @@
 - [gorilla/csrf](https://github.com/gorilla/csrf)
 
 ## References
+- [cor_wdv2](https://courses.calhoun.io/courses/cor_wdv2)
 - [lenslocked](https://github.com/calhounio/lenslocked)
 - [errors in Go](https://errorsingo.com/)
 - [Standard Package Layout](https://www.gobeyond.dev/standard-package-layout/)
