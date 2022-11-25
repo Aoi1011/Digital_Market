@@ -5,6 +5,7 @@ import (
 	"net/http"
 
 	"github.com/Aoi1011/lenslocked/controllers"
+	"github.com/Aoi1011/lenslocked/models"
 	"github.com/Aoi1011/lenslocked/templates"
 	"github.com/Aoi1011/lenslocked/views"
 	"github.com/go-chi/chi/v5"
@@ -12,6 +13,21 @@ import (
 )
 
 func main() {
+	cfg := models.DefaultPostgresConfig()
+	db, err := models.Open(cfg)
+	if err != nil {
+		panic(err)
+	}
+	defer db.Close()
+
+	userService := models.UserService{
+		DB: db,
+	}
+
+	userC := controllers.Users{
+		UserService: &userService,
+	}
+
 	r := chi.NewRouter()
 
 	r.Use(middleware.Logger)
@@ -22,7 +38,7 @@ func main() {
 		views.ParseFS(templates.FS, "contact.gohtml", "tailwind.gohtml"))))
 	r.Get("/faq", controllers.FAQ(views.Must(
 		views.ParseFS(templates.FS, "faq.gohtml", "tailwind.gohtml"))))
-	var userC controllers.Users
+	// var userC controllers.Users
 	userC.Templates.New = views.Must(
 		views.ParseFS(templates.FS, "signup.gohtml", "tailwind.gohtml"))
 	r.Get("/signup", userC.New)
