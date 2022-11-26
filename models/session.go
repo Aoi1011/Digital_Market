@@ -14,12 +14,21 @@ type Session struct {
 	TokenHash string
 }
 
+const (
+	MinBytesPerToken = 32
+)
+
 type SessionService struct {
-	DB *sql.DB
+	DB            *sql.DB
+	BytesPerToken int
 }
 
 func (ss *SessionService) Create(userID int) (*Session, error) {
-	token, err := rand.SesstionToken()
+	bytesPerToken := ss.BytesPerToken
+	if bytesPerToken < MinBytesPerToken {
+		bytesPerToken = MinBytesPerToken
+	}
+	token, err := rand.String(bytesPerToken)
 	if err != nil {
 		return nil, fmt.Errorf("create: %w", err)
 	}
