@@ -16,3 +16,7 @@ type SessionService struct {
 func (ss *SessionService) Create(userID int) (*Session, error) {
 	return nil, nil
 }
+
+func (ss *SessionService) User(token string) (*User, error) {
+	return nil, nil
+}
