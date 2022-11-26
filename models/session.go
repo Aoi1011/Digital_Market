@@ -67,7 +67,7 @@ func (ss *SessionService) User(token string) (*User, error) {
 		FROM sessions
 		WHERE token_hash = $1
 	`, tokenHash)
-	err := row.Scan(user.ID)
+	err := row.Scan(&user.ID)
 	if err != nil {
 		return nil, fmt.Errorf("user: %w", err)
 	}
