@@ -5,6 +5,7 @@ import (
 	"net/http"
 
 	"github.com/Aoi1011/lenslocked/controllers"
+	"github.com/Aoi1011/lenslocked/migrations"
 	"github.com/Aoi1011/lenslocked/models"
 	"github.com/Aoi1011/lenslocked/templates"
 	"github.com/Aoi1011/lenslocked/views"
@@ -21,7 +22,7 @@ func main() {
 	}
 	defer db.Close()
 
-	err = models.Migrate(db, "migrations")
+	err = models.MigrateFS(db, migrations.FS, ".")
 	if err != nil {
 		panic(err)
 	}
